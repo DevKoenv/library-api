@@ -2,11 +2,14 @@ package dev.koenv.libraryapi.domain.service
 
 import dev.koenv.libraryapi.domain.repository.UserRepository
 import dev.koenv.libraryapi.dto.auth.*
+import dev.koenv.libraryapi.dto.user.UserDto
 import dev.koenv.libraryapi.mappers.auth.toEntity
 import dev.koenv.libraryapi.mappers.user.toDto
 import dev.koenv.libraryapi.shared.util.JwtUtil
 import dev.koenv.libraryapi.shared.util.PasswordUtil
+import io.ktor.http.cio.Request
 import io.ktor.server.config.*
+import java.util.UUID
 
 class AuthService(
     private val repo: UserRepository,
@@ -50,8 +53,15 @@ class AuthService(
         return AuthResponseDto(token, user.toDto())
     }
 
+    suspend fun getUserById(id: UUID) =
+        repo.findById(id)?.toDto() ?: throw IllegalArgumentException("User not found")
+
     private fun validateRegistration(email: String, password: String) {
         require(email.contains("@")) { "Invalid email format" }
         require(password.length >= 8) { "Password must be at least 8 characters" }
+        require(password.any { it.isDigit() }) { "Password must contain at least one digit" }
+        require(password.any { it.isUpperCase() }) { "Password must contain at least one uppercase letter" }
+        require(password.any { it.isLowerCase() }) { "Password must contain at least one lowercase letter" }
+        require(password.any { !it.isLetterOrDigit() }) { "Password must contain at least one special character" }
     }
 }

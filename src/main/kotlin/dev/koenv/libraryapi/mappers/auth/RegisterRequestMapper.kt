@@ -7,5 +7,5 @@ import dev.koenv.libraryapi.dto.auth.RegisterRequestDto
 fun RegisterRequestDto.toEntity(passwordHash: String): User = User(
     email = email,
     passwordHash = passwordHash,
-    role = Role.DRIVER
+    role = Role.MEMBER,
 )

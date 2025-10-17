@@ -12,6 +12,21 @@ import io.ktor.server.application.ApplicationCall
 
 class RequestAborted : RuntimeException()
 
+fun JWTPrincipal.userIdOrNull(): UUID? {
+    return runCatching { UUID.fromString(payload.getClaim("sub").asString()) }.getOrNull()
+}
+
+fun ApplicationCall.requireUser(): UUID {
+    val principal = principal<JWTPrincipal>()
+        ?: throw ApiException(HttpStatusCode.Unauthorized, message = "Missing JWT principal")
+
+    val id = principal.userIdOrNull()
+        ?: throw ApiException(HttpStatusCode.BadRequest, message = "Invalid or missing userId claim")
+
+    return id
+}
+
+
 fun JWTPrincipal.requireRole(vararg allowed: Role) {
     val role = this.payload.getClaim("role").asString()?.let { Role.valueOf(it) }
     if (role == null || role !in allowed) throw ApiException(HttpStatusCode.Forbidden, message = "Insufficient role")

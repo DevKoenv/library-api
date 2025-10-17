@@ -10,3 +10,4 @@ class ApiException(
 ) : RuntimeException(message) {
     val code: String = code ?: http.description.uppercase().replace(Regex("[^A-Z0-9]+"), "_").trim('_')
 }
+

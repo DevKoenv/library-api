@@ -6,11 +6,12 @@ import kotlinx.datetime.LocalDateTime
 import java.util.*
 
 @Serializable
-data class User(
+data class Book(
     @Serializable(with = UUIDSerializer::class)
     val id: UUID? = null,
-    val email: String,
-    val passwordHash: String,
-    val role: Role = Role.MEMBER,
+    val title: String,
+    val author: String,
+    val isbn: String,
+    val copiesAvailable: Int = 1,
     val createdAt: LocalDateTime? = null
 )

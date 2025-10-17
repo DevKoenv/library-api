@@ -28,7 +28,7 @@ object UserRoutes : RouteRegistrar {
                 }
 
                 get("/{id}") {
-                    call.requireRole(Role.ADMIN, Role.DRIVER)
+                    call.requireRole(Role.ADMIN, Role.MEMBER)
                     val id = call.requireUuidParamOrFail("id")
                     val user = userService.getById(id)
                     if (user == null) call.respond(HttpStatusCode.NotFound)
