@@ -1,21 +1,20 @@
 package dev.koenv.libraryapi.routes.api.v1.auth
 
-import dev.koenv.libraryapi.mappers.user.toDto
 import dev.koenv.libraryapi.domain.service.AuthService
 import dev.koenv.libraryapi.domain.service.SessionService
-import dev.koenv.libraryapi.dto.auth.LoginRequestDto
 import dev.koenv.libraryapi.dto.auth.AuthResponseDto
-import dev.koenv.libraryapi.shared.util.requireUser
-import dev.koenv.libraryapi.shared.util.requireUuidParamOrFail
+import dev.koenv.libraryapi.dto.auth.LoginRequestDto
+import dev.koenv.libraryapi.mappers.user.toDto
+import dev.koenv.libraryapi.shared.auth.AuthContext.requireUser
+import dev.koenv.libraryapi.shared.http.RequestUtil.requireUuidParam
 import io.ktor.http.*
-import io.ktor.server.auth.authenticate
-import io.ktor.server.auth.jwt.JWTPrincipal
-import io.ktor.server.auth.principal
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
-import java.util.UUID
+import java.util.*
 
 object SessionRoutes {
     fun register(parent: Route) {
@@ -55,7 +54,7 @@ object SessionRoutes {
                 // Invalidate specific session by id
                 delete("{id}") {
                     val userId = call.requireUser()
-                    val targetId = call.requireUuidParamOrFail("id")
+                    val targetId = call.requireUuidParam("id")
                     sessionService.logoutById(targetId, userId)
                     call.respond(HttpStatusCode.NoContent)
                 }

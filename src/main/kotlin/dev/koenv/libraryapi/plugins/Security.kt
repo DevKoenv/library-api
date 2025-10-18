@@ -9,7 +9,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 import org.koin.ktor.ext.inject
-import java.util.UUID
+import java.util.*
 
 fun Application.configureSecurity() {
     val sessionRepo by inject<UserSessionRepository>()

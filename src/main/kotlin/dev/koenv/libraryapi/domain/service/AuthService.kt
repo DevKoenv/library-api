@@ -2,16 +2,14 @@ package dev.koenv.libraryapi.domain.service
 
 import dev.koenv.libraryapi.domain.entity.User
 import dev.koenv.libraryapi.domain.repository.UserRepository
-import dev.koenv.libraryapi.dto.auth.*
+import dev.koenv.libraryapi.dto.auth.AuthResponseDto
+import dev.koenv.libraryapi.dto.auth.RegisterRequestDto
 import dev.koenv.libraryapi.mappers.auth.toEntity
 import dev.koenv.libraryapi.mappers.user.toDto
-import dev.koenv.libraryapi.shared.util.PasswordUtil
-import io.ktor.server.config.*
-import java.util.UUID
+import dev.koenv.libraryapi.shared.auth.PasswordUtil
 
 class AuthService(
     private val repo: UserRepository,
-    private val config: ApplicationConfig,
     private val sessions: SessionService
 ) {
     suspend fun register(req: RegisterRequestDto): AuthResponseDto {
@@ -36,9 +34,6 @@ class AuthService(
 
         return user
     }
-
-    suspend fun getUserById(id: UUID) =
-        repo.findById(id)?.toDto() ?: throw IllegalArgumentException("User not found")
 
     private fun validateRegistration(email: String, password: String) {
         require(email.contains("@")) { "Invalid email format" }

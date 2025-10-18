@@ -1,100 +1,69 @@
 package dev.koenv.libraryapi.routes.api.v1.users
 
-import dev.koenv.libraryapi.enums.Permission
+import dev.koenv.libraryapi.domain.policy.UserPolicies.requireCanDeleteUser
+import dev.koenv.libraryapi.domain.policy.UserPolicies.requireCanReadUser
+import dev.koenv.libraryapi.domain.policy.UserPolicies.requireCanUpdateRole
+import dev.koenv.libraryapi.domain.policy.UserPolicies.requireCanUpdateUser
 import dev.koenv.libraryapi.domain.service.UserService
 import dev.koenv.libraryapi.dto.user.UpdateUserDto
+import dev.koenv.libraryapi.dto.user.UpdateUserRoleDto
+import dev.koenv.libraryapi.enums.Permission
 import dev.koenv.libraryapi.mappers.user.toDto
-import dev.koenv.libraryapi.mappers.user.toEntity
 import dev.koenv.libraryapi.routes.RouteRegistrar
-import dev.koenv.libraryapi.shared.http.ApiException
-import dev.koenv.libraryapi.shared.util.*
+import dev.koenv.libraryapi.shared.auth.AuthContext.requirePermission
+import dev.koenv.libraryapi.shared.auth.AuthContext.requireUser
+import dev.koenv.libraryapi.shared.http.RequestUtil.requireBody
+import dev.koenv.libraryapi.shared.http.RequestUtil.requireUuidParam
 import io.ktor.http.*
-import io.ktor.server.auth.authenticate
-import io.ktor.server.request.*
+import io.ktor.server.auth.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 object UserRoutes : RouteRegistrar {
     override fun Route.register() {
-        val userService by inject<UserService>()
+        val service by inject<UserService>()
 
         route("/users") {
             authenticate("auth-jwt") {
+
                 get {
-                    call.requirePermission(Permission.USER_READ_ALL)
-                    call.respond(userService.getAll().map { it.toDto() })
+                    call.requirePermission(Permission.USER_READ_OTHERS)
+                    call.respond(service.list().map { it.toDto() })
                 }
 
                 get("/me") {
-                    call.requirePermission(Permission.USER_READ_SELF)
-                    val userId = call.requireUser()
-                    val user = userService.getById(userId)
-                        ?: throw ApiException(HttpStatusCode.NotFound, message = "User not found")
-                    call.respond(HttpStatusCode.OK, user.toDto())
+                    val id = call.requireUser()
+                    call.requireCanReadUser(id)
+                    call.respond(HttpStatusCode.OK, service.get(id).toDto())
                 }
 
                 get("/{id}") {
-                    call.requirePermission(Permission.USER_READ_SELF, Permission.USER_READ_ALL)
-                    val targetId = call.requireUuidParamOrFail("id")
-                    val currentUserId = call.requireUser()
-                    val readingSelf = currentUserId == targetId
-                    val canReadAll = call.hasPermission(Permission.USER_READ_ALL)
-
-                    if (!readingSelf && !canReadAll) throw ApiException(
-                        HttpStatusCode.Forbidden,
-                        message = "Cannot read other users"
-                    )
-
-                    val user = userService.getById(targetId) ?: throw ApiException(
-                        HttpStatusCode.NotFound,
-                        message = "User not found"
-                    )
-                    call.respond(HttpStatusCode.OK, user.toDto())
-
+                    val id = call.requireUuidParam("id")
+                    call.requireCanReadUser(id)
+                    call.respond(HttpStatusCode.OK, service.get(id).toDto())
                 }
 
                 put("/{id}") {
-                    call.requirePermission(Permission.USER_UPDATE_SELF, Permission.USER_UPDATE_OTHERS)
-
-                    val targetId = call.requireUuidParamOrFail("id")
-                    val currentUserId = call.requireUser()
-
-                    val updatingSelf = currentUserId == targetId
-                    val canUpdateOthers = call.hasPermission(Permission.USER_UPDATE_OTHERS)
-
-                    if (!updatingSelf && !canUpdateOthers) throw ApiException(
-                        HttpStatusCode.Forbidden,
-                        message = "Cannot update other users"
-                    )
-
-                    val existing = userService.getById(targetId) ?: throw ApiException(
-                        HttpStatusCode.NotFound,
-                        message = "User not found"
-                    )
-
-                    val dto = call.receive<UpdateUserDto>()
-                    val updatedEntity = dto.toEntity(targetId, existing)
-                    val saved = userService.update(targetId, updatedEntity)
-                        ?: throw ApiException(HttpStatusCode.InternalServerError, message = "Update failed")
-
-                    call.respond(HttpStatusCode.OK, saved.toDto())
+                    val id = call.requireUuidParam("id")
+                    call.requireCanUpdateUser(id)
+                    val body = call.requireBody<UpdateUserDto>()
+                    val updated = service.update(id, body)
+                    call.respond(HttpStatusCode.OK, updated.toDto())
                 }
 
+                patch("/{id}/role") {
+                    val id = call.requireUuidParam("id")
+                    call.requireCanUpdateRole()
+                    val body = call.requireBody<UpdateUserRoleDto>()
+                    val updated = service.updateRole(id, body)
+                    call.respond(HttpStatusCode.OK, updated.toDto())
+                }
 
                 delete("/{id}") {
-                    call.requirePermission(Permission.USER_DELETE_SELF, Permission.USER_DELETE_OTHERS)
-                    val targetId = call.requireUuidParamOrFail("id")
-                    val currentUserId = call.requireUser()
-                    val deletingSelf = currentUserId == targetId
-                    val canDeleteOthers = call.hasPermission(Permission.USER_DELETE_OTHERS)
-
-                    if (!deletingSelf && !canDeleteOthers) throw ApiException(
-                        HttpStatusCode.Forbidden,
-                        message = "Cannot delete other users"
-                    )
-
-                    userService.delete(targetId)
+                    val id = call.requireUuidParam("id")
+                    call.requireCanDeleteUser(id)
+                    service.delete(id)
                     call.respond(HttpStatusCode.NoContent)
                 }
             }

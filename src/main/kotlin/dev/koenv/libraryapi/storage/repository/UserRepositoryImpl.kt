@@ -7,7 +7,7 @@ import dev.koenv.libraryapi.storage.db.tables.UsersTable
 import org.jetbrains.exposed.v1.core.ResultRow
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.*
-import java.util.UUID
+import java.util.*
 
 class UserRepositoryImpl : UserRepository {
 

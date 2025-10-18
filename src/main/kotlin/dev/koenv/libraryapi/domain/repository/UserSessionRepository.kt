@@ -1,7 +1,7 @@
 package dev.koenv.libraryapi.domain.repository
 
 import dev.koenv.libraryapi.domain.entity.UserSession
-import java.util.UUID
+import java.util.*
 
 interface UserSessionRepository {
     suspend fun create(session: UserSession, refreshTokenHash: String): UserSession

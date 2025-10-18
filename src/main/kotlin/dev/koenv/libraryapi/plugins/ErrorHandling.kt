@@ -2,14 +2,13 @@ package dev.koenv.libraryapi.plugins
 
 import dev.koenv.libraryapi.shared.http.ApiException
 import dev.koenv.libraryapi.shared.http.ErrorResponse
-import dev.koenv.libraryapi.shared.util.RequestAborted
 import io.ktor.http.*
-import io.ktor.http.content.TextContent
+import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.callid.*
 import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.response.*
 import io.ktor.server.request.*
+import io.ktor.server.response.*
 import kotlinx.serialization.json.Json
 
 fun Application.configureErrorHandling() {
@@ -20,9 +19,6 @@ fun Application.configureErrorHandling() {
         exception<ApiException> { call, e ->
             log.warn("ApiException ${e.http.value} ${e.code} uri=${call.request.uri} trace=${call.callId}: ${e.message}")
             call.respond(e.http, e.toErrorResponse(call))
-        }
-        exception<RequestAborted> { call, _ ->
-            log.debug("RequestAborted uri=${call.request.uri} trace=${call.callId}")
         }
         exception<Throwable> { call, e ->
             log.error("Unhandled 500 uri=${call.request.uri} trace=${call.callId}", e)

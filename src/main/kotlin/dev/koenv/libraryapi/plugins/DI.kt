@@ -7,11 +7,11 @@ import dev.koenv.libraryapi.domain.service.SessionService
 import dev.koenv.libraryapi.domain.service.UserService
 import dev.koenv.libraryapi.storage.repository.UserRepositoryImpl
 import dev.koenv.libraryapi.storage.repository.UserSessionRepositoryImpl
-import org.koin.dsl.module
 import io.ktor.server.application.*
+import org.koin.core.logger.Level
+import org.koin.dsl.module
 import org.koin.ktor.plugin.Koin
 import org.koin.logger.slf4jLogger
-import org.koin.core.logger.Level
 
 fun Application.configureDI() {
     install(Koin) {
@@ -39,7 +39,7 @@ fun Application.configureDI() {
 
                 // services
                 single { SessionService(get(), get(), get()) }
-                single { AuthService(get(), get(), get()) }
+                single { AuthService(get(), get()) }
                 single { UserService(get()) }
             }
         )

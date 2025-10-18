@@ -5,13 +5,15 @@ import dev.koenv.libraryapi.domain.entity.UserSession
 import dev.koenv.libraryapi.domain.repository.UserSessionRepository
 import dev.koenv.libraryapi.plugins.dbQuery
 import dev.koenv.libraryapi.storage.db.tables.UserSessionsTable
-import org.jetbrains.exposed.v1.core.ResultRow
-import org.jetbrains.exposed.v1.core.eq
-import org.jetbrains.exposed.v1.jdbc.*
-import java.util.UUID
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.exposed.v1.core.ResultRow
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.insert
+import org.jetbrains.exposed.v1.jdbc.selectAll
+import org.jetbrains.exposed.v1.jdbc.update
+import java.util.*
 
 class UserSessionRepositoryImpl : UserSessionRepository {
 

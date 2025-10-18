@@ -1,4 +1,4 @@
-package dev.koenv.libraryapi.shared.util
+package dev.koenv.libraryapi.shared.auth
 
 import de.mkammerer.argon2.Argon2Factory
 

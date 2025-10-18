@@ -6,17 +6,13 @@ import dev.koenv.libraryapi.domain.entity.UserSession
 import dev.koenv.libraryapi.domain.repository.UserRepository
 import dev.koenv.libraryapi.domain.repository.UserSessionRepository
 import dev.koenv.libraryapi.dto.auth.TokenPairDto
-import dev.koenv.libraryapi.shared.util.JwtUtil
-import dev.koenv.libraryapi.shared.util.PasswordUtil
+import dev.koenv.libraryapi.shared.auth.JwtUtil
+import dev.koenv.libraryapi.shared.auth.PasswordUtil
 import io.ktor.server.config.*
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.*
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
-import kotlinx.datetime.plus
 import java.security.SecureRandom
-import java.util.Base64
-import java.util.UUID
+import java.util.*
 
 class SessionService(
     private val repo: UserSessionRepository,

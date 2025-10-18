@@ -14,18 +14,25 @@ enum class Role(val permissions: Set<Permission>) {
             // Books
             Permission.BOOK_CREATE,
             Permission.BOOK_READ,
-            Permission.BOOK_READ_ALL,
             Permission.BOOK_UPDATE,
             Permission.BOOK_DELETE,
 
             // Loans
-            Permission.LOAN_READ_ALL,
-            Permission.LOAN_UPDATE_ALL,
-            Permission.LOAN_DELETE_ALL,
+            Permission.LOAN_CREATE,
+            Permission.LOAN_READ_SELF,
+            Permission.LOAN_READ_OTHERS,
+            Permission.LOAN_UPDATE_SELF,
+            Permission.LOAN_UPDATE_OTHERS,
+            Permission.LOAN_DELETE_SELF,
+            Permission.LOAN_DELETE_OTHERS,
 
             // Users
-            Permission.USER_READ_ALL,
+            Permission.USER_READ_SELF,
+            Permission.USER_READ_OTHERS,
+            Permission.USER_UPDATE_SELF,
             Permission.USER_UPDATE_OTHERS,
+            Permission.USER_DELETE_SELF,
+            Permission.USER_DELETE_OTHERS,
             Permission.USER_ROLE_UPDATE
         )
     ),

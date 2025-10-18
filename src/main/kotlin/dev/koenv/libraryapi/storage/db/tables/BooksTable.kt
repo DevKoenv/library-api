@@ -1,7 +1,8 @@
 package dev.koenv.libraryapi.storage.db.tables
 
 import org.jetbrains.exposed.v1.core.Table
-import org.jetbrains.exposed.v1.datetime.*
+import org.jetbrains.exposed.v1.datetime.CurrentDateTime
+import org.jetbrains.exposed.v1.datetime.datetime
 
 object BooksTable : Table("books") {
     val id = uuid("id").autoGenerate()

@@ -1,9 +1,9 @@
 package dev.koenv.libraryapi.domain.entity
 
 import dev.koenv.libraryapi.shared.serialization.UUIDSerializer
-import kotlinx.serialization.Serializable
 import kotlinx.datetime.LocalDateTime
-import java.util.UUID
+import kotlinx.serialization.Serializable
+import java.util.*
 
 @Serializable
 data class UserSession(
