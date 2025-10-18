@@ -1,9 +1,12 @@
 package dev.koenv.libraryapi.plugins
 
 import dev.koenv.libraryapi.domain.repository.UserRepository
+import dev.koenv.libraryapi.domain.repository.UserSessionRepository
 import dev.koenv.libraryapi.domain.service.AuthService
+import dev.koenv.libraryapi.domain.service.SessionService
 import dev.koenv.libraryapi.domain.service.UserService
 import dev.koenv.libraryapi.storage.repository.UserRepositoryImpl
+import dev.koenv.libraryapi.storage.repository.UserSessionRepositoryImpl
 import org.koin.dsl.module
 import io.ktor.server.application.*
 import org.koin.ktor.plugin.Koin
@@ -32,12 +35,12 @@ fun Application.configureDI() {
 
                 // repositories
                 single<UserRepository> { UserRepositoryImpl() }
+                single<UserSessionRepository> { UserSessionRepositoryImpl() }
 
                 // services
-                single { AuthService(get(), get()) }
-                single {
-                    UserService(get())
-                }
+                single { SessionService(get(), get(), get()) }
+                single { AuthService(get(), get(), get()) }
+                single { UserService(get()) }
             }
         )
     }

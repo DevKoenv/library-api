@@ -26,6 +26,14 @@ object UserRoutes : RouteRegistrar {
                     call.respond(userService.getAll().map { it.toDto() })
                 }
 
+                get("/me") {
+                    call.requirePermission(Permission.USER_READ_SELF)
+                    val userId = call.requireUser()
+                    val user = userService.getById(userId)
+                        ?: throw ApiException(HttpStatusCode.NotFound, message = "User not found")
+                    call.respond(HttpStatusCode.OK, user.toDto())
+                }
+
                 get("/{id}") {
                     call.requirePermission(Permission.USER_READ_SELF, Permission.USER_READ_ALL)
                     val targetId = call.requireUuidParamOrFail("id")

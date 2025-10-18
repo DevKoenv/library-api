@@ -1,11 +1,9 @@
 package dev.koenv.libraryapi.dto.auth
 
-import dev.koenv.libraryapi.dto.user.UserDto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AuthResponseDto(
+data class TokenPairDto(
     val accessToken: String,
-    val refreshToken: String,
-    val user: UserDto
+    val refreshToken: String
 )

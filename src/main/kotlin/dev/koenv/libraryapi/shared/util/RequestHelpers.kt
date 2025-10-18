@@ -22,11 +22,10 @@ fun ApplicationCall.requireUser(): UUID {
         ?: throw ApiException(HttpStatusCode.Unauthorized, message = "Missing JWT principal")
 
     val id = principal.userIdOrNull()
-        ?: throw ApiException(HttpStatusCode.BadRequest, message = "Invalid or missing userId claim")
+        ?: throw ApiException(HttpStatusCode.BadRequest, message = "Invalid or missing sub claim")
 
     return id
 }
-
 
 fun JWTPrincipal.requireRole(vararg allowed: Role) {
     val role = this.payload.getClaim("role").asString()?.let { Role.valueOf(it) }
@@ -69,7 +68,6 @@ fun ApplicationCall.requirePermission(vararg allowed: Permission): JWTPrincipal 
     principal.requirePermission(*allowed)
     return principal
 }
-
 
 suspend fun ApplicationCall.requireUuidParamOrFail(name: String): UUID {
     val s = parameters[name] ?: run {
