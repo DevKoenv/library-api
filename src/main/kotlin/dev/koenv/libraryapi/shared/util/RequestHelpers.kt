@@ -1,6 +1,7 @@
 package dev.koenv.libraryapi.shared.util
 
 import dev.koenv.libraryapi.domain.entity.Role
+import dev.koenv.libraryapi.enums.Permission
 import dev.koenv.libraryapi.shared.http.ApiException
 import io.ktor.http.*
 import io.ktor.server.auth.jwt.JWTPrincipal
@@ -41,6 +42,35 @@ fun ApplicationCall.requireRole(vararg allowed: Role): JWTPrincipal {
     return principal
 }
 
+fun JWTPrincipal.hasPermission(vararg permissions: Permission): Boolean {
+    val role = this.payload.getClaim("role").asString()
+        ?.let { Role.valueOf(it) }
+        ?: return false
+
+    return permissions.any { it in role.permissions }
+}
+
+fun JWTPrincipal.requirePermission(vararg allowed: Permission) {
+    if (!hasPermission(*allowed)) {
+        throw ApiException(HttpStatusCode.Forbidden, message = "Insufficient permission")
+    }
+}
+
+fun ApplicationCall.hasPermission(vararg permissions: Permission): Boolean {
+    val principal = this.principal<JWTPrincipal>() ?: return false
+    return principal.hasPermission(*permissions)
+}
+
+fun ApplicationCall.requirePermission(vararg allowed: Permission): JWTPrincipal {
+    val principal = this.principal<JWTPrincipal>() ?: throw ApiException(
+        HttpStatusCode.InternalServerError,
+        message = "No principal"
+    )
+    principal.requirePermission(*allowed)
+    return principal
+}
+
+
 suspend fun ApplicationCall.requireUuidParamOrFail(name: String): UUID {
     val s = parameters[name] ?: run {
         respond(HttpStatusCode.BadRequest, "Missing $name")
@@ -48,7 +78,7 @@ suspend fun ApplicationCall.requireUuidParamOrFail(name: String): UUID {
     }
     return try {
         UUID.fromString(s)
-    } catch (e: IllegalArgumentException) {
+    } catch (_: IllegalArgumentException) {
         respond(HttpStatusCode.BadRequest, "Invalid $name")
         throw RequestAborted()
     }
@@ -57,7 +87,7 @@ suspend fun ApplicationCall.requireUuidParamOrFail(name: String): UUID {
 suspend inline fun <reified T : Any> ApplicationCall.requireBodyOrFail(): T {
     return try {
         receive<T>()
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         respond(HttpStatusCode.BadRequest, "Invalid request body")
         throw RequestAborted()
     }

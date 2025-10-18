@@ -3,9 +3,11 @@ package dev.koenv.libraryapi.routes.api.v1.auth
 import dev.koenv.libraryapi.domain.service.AuthService
 import dev.koenv.libraryapi.dto.auth.LoginRequestDto
 import dev.koenv.libraryapi.dto.auth.RegisterRequestDto
+import dev.koenv.libraryapi.enums.Permission
 import dev.koenv.libraryapi.routes.RouteRegistrar
+import dev.koenv.libraryapi.shared.util.requirePermission
 import dev.koenv.libraryapi.shared.util.requireUser
-import io.ktor.http.HttpStatusCode
+import io.ktor.http.*
 import io.ktor.server.auth.authenticate
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
@@ -33,12 +35,12 @@ object AuthRoutes : RouteRegistrar {
 
             authenticate("auth-jwt") {
                 get("/me") {
+                    call.requirePermission(Permission.USER_READ_SELF)
                     val userId = call.requireUser()
                     val user = authService.getUserById(userId)
                     call.respond(HttpStatusCode.OK, user)
                 }
             }
-
         }
     }
 }

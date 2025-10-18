@@ -10,5 +10,9 @@ class UserService(private val repo: UserRepository) {
 
     suspend fun getById(id: UUID): User? = repo.findById(id)
 
+    suspend fun create(user: User): User = repo.create(user)
+
+    suspend fun update(id: UUID, user: User): User? = repo.update(id, user)
+
     suspend fun delete(id: UUID): Boolean = repo.delete(id)
 }
