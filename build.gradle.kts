@@ -1,7 +1,5 @@
 val ktor_version: String by project
 val exposed_version: String by project
-val mysql_version: String by project
-val sqlite_version: String by project
 val mariadb_version: String by project
 val argon2_version: String by project
 val kotlin_version: String by project

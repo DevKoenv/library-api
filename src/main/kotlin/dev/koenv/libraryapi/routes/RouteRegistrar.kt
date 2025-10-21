@@ -21,8 +21,17 @@ fun registerAllRoutes(root: Route) {
         )),
         RouteGroup("/api", listOf(
             RouteGroup("/v1", listOf(
+                // All authentication routes
                 dev.koenv.libraryapi.routes.api.v1.auth.AuthRoutes,
+
+                // User CRUD
                 dev.koenv.libraryapi.routes.api.v1.users.UserRoutes,
+
+                // Book CRUD
+                dev.koenv.libraryapi.routes.api.v1.books.BookRoutes,
+
+                // Loans CRUD
+//                dev.koenv.libraryapi.routes.api.v1.loans.LoanRoutes,
             ))
         ))
     )

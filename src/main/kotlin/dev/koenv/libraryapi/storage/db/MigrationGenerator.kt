@@ -41,6 +41,12 @@ object MigrationGenerator {
         return out
     }
 
+    private fun randomName(): String {
+        val adjectives = listOf("sleepy", "premium", "angry", "cosmic", "brave", "fuzzy", "silent", "vivid", "ancient", "spicy")
+        val nouns = listOf("otter", "mister", "falcon", "cactus", "nebula", "fear", "pizza", "vortex", "wizard", "crab")
+        return "${adjectives.random()}_${nouns.random()}"
+    }
+
     @JvmStatic
     fun main(args: Array<String>) {
         val tmpRoot = createTempDirectory("mariadb4j-migrations").toFile()
@@ -105,7 +111,7 @@ object MigrationGenerator {
 
             val outDir = File("src/main/resources/migrations").apply { mkdirs() }
             if (allStatements.isNotEmpty()) {
-                val scriptName = "V${System.currentTimeMillis()}__migration.sql"
+                val scriptName = "V${System.currentTimeMillis()}__${randomName()}.sql"
                 File(outDir, scriptName).writeText(allStatements.joinToString(";\n", postfix = ";"))
                 println("Migration script written: ${scriptName}")
             } else {
