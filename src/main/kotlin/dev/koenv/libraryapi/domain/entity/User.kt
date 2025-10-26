@@ -1,5 +1,6 @@
 package dev.koenv.libraryapi.domain.entity
 
+import dev.koenv.libraryapi.domain.enums.Role
 import dev.koenv.libraryapi.shared.serialization.UUIDSerializer
 import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.Serializable

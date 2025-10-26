@@ -2,7 +2,7 @@ package dev.koenv.libraryapi.shared.auth
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import dev.koenv.libraryapi.domain.entity.Role
+import dev.koenv.libraryapi.domain.enums.Role
 import java.util.*
 
 object JwtUtil {

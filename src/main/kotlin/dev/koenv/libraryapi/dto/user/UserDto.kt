@@ -1,6 +1,6 @@
 package dev.koenv.libraryapi.dto.user
 
-import dev.koenv.libraryapi.domain.entity.Role
+import dev.koenv.libraryapi.domain.enums.Role
 import dev.koenv.libraryapi.shared.serialization.UUIDSerializer
 import kotlinx.serialization.Serializable
 import java.util.*

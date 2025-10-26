@@ -13,10 +13,18 @@ jwt:
   realm: "Access to Library API"
   secret: "$JWT_SECRET:7ea529c97a5c3a28acced8bcbc5f2d8d"
 
+#db:
+#  type: "$DB_TYPE:embedded"             # external | embedded
+#  host: "$DB_HOST:localhost"
+#  port: "$DB_PORT:3306"
+#  name: "$DB_NAME:libraryapi"
+#  user: "$DB_USER:root"
+#  password: "$DB_PASSWORD:password"
+
 db:
-  type: "$DB_TYPE:embedded"             # external | embedded
-  host: "$DB_HOST:localhost"
-  port: "$DB_PORT:3306"
-  name: "$DB_NAME:libraryapi"
-  user: "$DB_USER:root"
-  password: "$DB_PASSWORD:password"
+  type: external
+  host: localhost
+  port: 3306
+  name: mariadb
+  user: mariadb
+  password: mariadb

@@ -1,6 +1,6 @@
 package dev.koenv.libraryapi.shared.auth
 
-import dev.koenv.libraryapi.domain.entity.Role
+import dev.koenv.libraryapi.domain.enums.Role
 import dev.koenv.libraryapi.enums.Permission
 import dev.koenv.libraryapi.shared.http.ApiException
 import io.ktor.http.*

@@ -1,10 +1,13 @@
 package dev.koenv.libraryapi.plugins
 
+import dev.koenv.libraryapi.domain.repository.BookRepository
 import dev.koenv.libraryapi.domain.repository.UserRepository
 import dev.koenv.libraryapi.domain.repository.UserSessionRepository
 import dev.koenv.libraryapi.domain.service.AuthService
+import dev.koenv.libraryapi.domain.service.BookService
 import dev.koenv.libraryapi.domain.service.SessionService
 import dev.koenv.libraryapi.domain.service.UserService
+import dev.koenv.libraryapi.storage.repository.BookRepositoryImpl
 import dev.koenv.libraryapi.storage.repository.UserRepositoryImpl
 import dev.koenv.libraryapi.storage.repository.UserSessionRepositoryImpl
 import io.ktor.server.application.*
@@ -36,11 +39,13 @@ fun Application.configureDI() {
                 // repositories
                 single<UserRepository> { UserRepositoryImpl() }
                 single<UserSessionRepository> { UserSessionRepositoryImpl() }
+                single<BookRepository> { BookRepositoryImpl() }
 
                 // services
-                single { SessionService(get(), get(), get()) }
                 single { AuthService(get(), get()) }
+                single { SessionService(get(), get(), get()) }
                 single { UserService(get()) }
+                single { BookService(get()) }
             }
         )
     }

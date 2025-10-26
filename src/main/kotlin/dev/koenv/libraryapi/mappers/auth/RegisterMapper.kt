@@ -1,6 +1,6 @@
 package dev.koenv.libraryapi.mappers.auth
 
-import dev.koenv.libraryapi.domain.entity.Role
+import dev.koenv.libraryapi.domain.enums.Role
 import dev.koenv.libraryapi.domain.entity.User
 import dev.koenv.libraryapi.dto.auth.RegisterRequestDto
 

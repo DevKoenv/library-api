@@ -1,4 +1,4 @@
-package dev.koenv.libraryapi.domain.entity
+package dev.koenv.libraryapi.domain.enums
 
 import dev.koenv.libraryapi.enums.Permission
 import kotlinx.serialization.Serializable
