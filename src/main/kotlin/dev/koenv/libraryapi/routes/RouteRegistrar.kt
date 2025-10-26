@@ -31,7 +31,7 @@ fun registerAllRoutes(root: Route) {
                 dev.koenv.libraryapi.routes.api.v1.books.BookRoutes,
 
                 // Loans CRUD
-//                dev.koenv.libraryapi.routes.api.v1.loans.LoanRoutes,
+                dev.koenv.libraryapi.routes.api.v1.loans.LoanRoutes,
             ))
         ))
     )
