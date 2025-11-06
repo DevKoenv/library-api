@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.lumo)
 }
 
 val APP_NAME = providers.gradleProperty("app.name").get()
@@ -62,20 +63,29 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
         }
+
         commonMain.dependencies {
+            // Compose Multiplatform core
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.materialIconsExtended)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+
+            // Shared logic module
+            implementation(projects.modules.shared)
+
+            // Lifecycle support (these are multiplatform-safe)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
-            implementation(projects.modules.shared)
         }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
+
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
@@ -174,7 +184,7 @@ compose.desktop {
             linux {
                 shortcut = true
 
-                 iconFile = iconsDir.file("app.png")
+                iconFile = iconsDir.file("app.png")
             }
         }
     }
