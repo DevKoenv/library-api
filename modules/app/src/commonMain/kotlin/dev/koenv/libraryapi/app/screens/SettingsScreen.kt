@@ -17,16 +17,19 @@ import dev.koenv.libraryapi.app.ui.AppTheme
 import dev.koenv.libraryapi.app.ui.components.Button
 import dev.koenv.libraryapi.app.ui.components.ButtonVariant
 import dev.koenv.libraryapi.app.ui.components.Text
+import dev.koenv.libraryapi.app.auth.AuthManager
 
 @Composable
 fun SettingsScreen(navigator: Navigator) {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(16.dp),
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text("Settings", style = AppTheme.typography.h2)
-        Text("Tap a subpage to navigate inside Settings (pushes onto the nav stack).", style = AppTheme.typography.body1)
+        Text("Session controls and demo navigation.", style = AppTheme.typography.body1)
+
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Button(variant = ButtonVariant.Primary, onClick = { navigator.push(Screen.SettingsSub("account")) }) {
                 Text("Account", style = AppTheme.typography.button)
@@ -35,8 +38,17 @@ fun SettingsScreen(navigator: Navigator) {
                 Text("Appearance", style = AppTheme.typography.button)
             }
         }
+
         Spacer(modifier = Modifier.height(8.dp))
         Text("Other settings content goes here.", style = AppTheme.typography.body1)
+
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            text = "Logout",
+            variant = ButtonVariant.Destructive,
+            onClick = { AuthManager.logout() },
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
 

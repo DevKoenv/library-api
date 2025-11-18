@@ -1,0 +1,36 @@
+2025-11-10 18:47:26,986 INFO  [main] [—] [Koin] - Started 10 definitions in 2.241 ms{}
+
+2025-11-10 18:47:27,017 INFO  [main] [—] ch.vorburger.mariadb4j.DB - Starting up the database...{}
+
+2025-11-10 18:47:27,027 INFO  [main] [—] ch.vorburger.mariadb4j.DB - mysqld executable: C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j\bin\mysqld.exe{}
+
+2025-11-10 18:47:27,038 INFO  [main] [—] ch.vorburger.exec.ManagedProcess - Starting Program [C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j\bin\mysqld.exe, --no-defaults, --console, --skip-grant-tables, --max_allowed_packet=64M, --basedir=C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j, --datadir=C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j\data, --tmpdir=C:\Users\koenv\AppData\Local\Temp\tmp\3306, --port=3306] (in working directory C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j){}
+
+2025-11-10 18:47:27,038 INFO  [main] [—] ch.vorburger.exec.ManagedProcess - Thread will wait for ": ready for connections." to appear in Console output of process Program [C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j\bin\mysqld.exe, --no-defaults, --console, --skip-grant-tables, --max_allowed_packet=64M, --basedir=C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j, --datadir=C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j\data, --tmpdir=C:\Users\koenv\AppData\Local\Temp\tmp\3306, --port=3306] (in working directory C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j) for max. 30000ms{}
+
+2025-11-10 18:47:27,212 INFO  [CommonsExecStreamPumper-pool-5-thread-2] [—] ch.vorburger.exec.ManagedProcess - mysqld.exe: 2025-11-10 18:47:27 0 [Note] Starting MariaDB 11.4.5-MariaDB source revision 0771110266ff5c04216af4bf1243c65f8c67ccf4 server_uid z1PDNHpAR1n8TajL4EZtXhNquEE= as process 11576{}
+
+2025-11-10 18:47:27,223 ERROR [CommonsExecStreamPumper-pool-5-thread-2] [—] ch.vorburger.exec.ManagedProcess - mysqld.exe: 2025-11-10 18:47:27 0 [ERROR] InnoDB: The data file './ibdata1' must be writable{}
+
+2025-11-10 18:47:27,223 ERROR [CommonsExecStreamPumper-pool-5-thread-2] [—] ch.vorburger.exec.ManagedProcess - mysqld.exe: 2025-11-10 18:47:27 0 [ERROR] InnoDB: The data file './ibdata1' must be writable{}
+
+2025-11-10 18:47:27,223 ERROR [CommonsExecStreamPumper-pool-5-thread-2] [—] ch.vorburger.exec.ManagedProcess - mysqld.exe: 2025-11-10 18:47:27 0 [ERROR] Plugin 'InnoDB' registration as a STORAGE ENGINE failed.{}
+
+2025-11-10 18:47:27,223 INFO  [CommonsExecStreamPumper-pool-5-thread-2] [—] ch.vorburger.exec.ManagedProcess - mysqld.exe: 2025-11-10 18:47:27 0 [Note] Plugin 'FEEDBACK' is disabled.{}
+
+2025-11-10 18:47:27,223 INFO  [CommonsExecStreamPumper-pool-5-thread-2] [—] ch.vorburger.exec.ManagedProcess - mysqld.exe: 2025-11-10 18:47:27 0 [Note] mysqld.exe: SSPI: using principal name 'localhost', mech 'Negotiate'{}
+
+2025-11-10 18:47:27,223 ERROR [CommonsExecStreamPumper-pool-5-thread-2] [—] ch.vorburger.exec.ManagedProcess - mysqld.exe: 2025-11-10 18:47:27 0 [ERROR] Unknown/unsupported storage engine: InnoDB{}
+
+2025-11-10 18:47:27,223 ERROR [CommonsExecStreamPumper-pool-5-thread-2] [—] ch.vorburger.exec.ManagedProcess - mysqld.exe: 2025-11-10 18:47:27 0 [ERROR] Aborting{}
+
+2025-11-10 18:47:27,243 ERROR [CommonsExecDefaultExecutorpool-2-thread-1] [—] ch.vorburger.exec.ManagedProcess - Program [C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j\bin\mysqld.exe, --no-defaults, --console, --skip-grant-tables, --max_allowed_packet=64M, --basedir=C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j, --datadir=C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j\data, --tmpdir=C:\Users\koenv\AppData\Local\Temp\tmp\3306, --port=3306] (in working directory C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j) failed unexpectedly{}
+
+org.apache.commons.exec.ExecuteException: Process exited with an error: 1 (Exit value: 1)
+	at org.apache.commons.exec.DefaultExecutor.executeInternal(DefaultExecutor.java:355)
+	at org.apache.commons.exec.DefaultExecutor.lambda$execute$0(DefaultExecutor.java:269)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+2025-11-10 18:48:05,090 WARN  [main] [—] ch.vorburger.exec.ManagedProcess - Timed out waiting for "": ready for connections."" after 30000ms (returning false){}
+
+2025-11-10 18:48:05,090 INFO  [main] [—] ch.vorburger.exec.ManagedProcess - Successfully destroyed Program [C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j\bin\mysqld.exe, --no-defaults, --console, --skip-grant-tables, --max_allowed_packet=64M, --basedir=C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j, --datadir=C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j\data, --tmpdir=C:\Users\koenv\AppData\Local\Temp\tmp\3306, --port=3306] (in working directory C:\Users\koenv\repositories\library-api-multiplatform\modules\server\build\mariadb4j){}
+

@@ -1,22 +1,21 @@
 package dev.koenv.libraryapi.server
 
-import dev.koenv.libraryapi.shared.Greeting
-import dev.koenv.libraryapi.shared.SERVER_PORT
+import dev.koenv.libraryapi.server.plugins.*
 import io.ktor.server.application.*
-import io.ktor.server.engine.*
 import io.ktor.server.netty.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
 
-fun main() {
-    embeddedServer(Netty, port = SERVER_PORT, host = "0.0.0.0", module = Application::module)
-        .start(wait = true)
+fun main(args: Array<String>) {
+    EngineMain.main(args)
 }
 
 fun Application.module() {
-    routing {
-        get("/") {
-            call.respondText("Ktor: ${Greeting().greet()}")
-        }
-    }
+    configureHTTP()
+    configureSerialization()
+    configureDI()
+    configureDatabase()
+    configureMonitoring()
+    configureAdministration()
+    configureSecurity()
+    configureErrorHandling()
+    configureRouting()
 }

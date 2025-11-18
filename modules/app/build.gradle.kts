@@ -1,5 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -20,7 +19,6 @@ val APP_COPYRIGHT = providers.gradleProperty("app.copyright").get()
 val WIN_UPGRADE_UUID = providers.gradleProperty("app.win.upgradeUuid").get()
 
 fun versionCodeFromSemver(ver: String): Int {
-    // 1.2.3 -> 1_002_003  (safe for Play Store)
     val parts = ver.split(".").mapNotNull { it.toIntOrNull() }
     val major = parts.getOrNull(0) ?: 0
     val minor = parts.getOrNull(1) ?: 0
@@ -47,48 +45,45 @@ kotlin {
 
     jvm()
 
-    js {
-        browser()
-        binaries.executable()
-    }
-
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-        binaries.executable()
-    }
-
     sourceSets {
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
+        val commonMain by getting {
+            dependencies {
+                // Compose Multiplatform core
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.materialIconsExtended)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
+
+                // Shared logic module
+                implementation(projects.modules.shared)
+
+                // Lifecycle
+                implementation(libs.androidx.lifecycle.viewmodelCompose)
+                implementation(libs.androidx.lifecycle.runtimeCompose)
+            }
         }
 
-        commonMain.dependencies {
-            // Compose Multiplatform core
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-
-            // Shared logic module
-            implementation(projects.modules.shared)
-
-            // Lifecycle support (these are multiplatform-safe)
-            implementation(libs.androidx.lifecycle.viewmodelCompose)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
         }
 
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+        val androidMain by getting {
+            dependencies {
+                implementation(compose.preview)
+                implementation(libs.androidx.activity.compose)
+            }
         }
 
-        jvmMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutinesSwing)
+        val jvmMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation(libs.kotlinx.coroutinesSwing)
+            }
         }
     }
 }
@@ -106,16 +101,19 @@ android {
 
         resValue("string", "app_name", APP_NAME)
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -130,11 +128,9 @@ compose.desktop {
     application {
         mainClass = "dev.koenv.libraryapi.app.MainKt"
 
-        // Put platform icons in: modules/app/src/jvmMain/resources/icons/{app.ico,app.icns,app.png}
-         val iconsDir = project.layout.projectDirectory.dir("src/jvmMain/resources/icons")
+        val iconsDir = project.layout.projectDirectory.dir("src/jvmMain/resources/icons")
 
         nativeDistributions {
-            // Human-friendly app name in the installer / OS menus
             packageName = APP_NAME
             packageVersion = APP_VERSION
             description = APP_DESC
@@ -142,48 +138,26 @@ compose.desktop {
             copyright = APP_COPYRIGHT
 
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-
-            // Bundle everything needed next to the app
             includeAllModules = true
+            appResourcesRootDir.set(project.layout.projectDirectory.dir("src/jvmMain/resources"))
 
-            // If we ship extra resources, add them as well
-             appResourcesRootDir.set(project.layout.projectDirectory.dir("src/jvmMain/resources"))
-
-            // ---- Windows installer (MSI) ----
             windows {
-                // Show "Add to Start Menu" & Desktop shortcut
                 menu = true
                 menuGroup = APP_NAME
                 shortcut = true
-
-                // Machine-wide install (requires admin; recommended for org machines)
                 perUserInstall = false
-
-                // Let user choose install directory (optional, keeps defaults sensible)
                 dirChooser = true
-
-                // Stable upgrade code so updates replace previous install
                 upgradeUuid = WIN_UPGRADE_UUID
-
-                // App icon (.ico)
-                 iconFile = iconsDir.file("app.ico")
+                iconFile = iconsDir.file("app.ico")
             }
 
-            // ---- macOS (DMG) ----
             macOS {
                 bundleID = APP_ID
-
-                // Signing/Notarization can be added later
-                // Can only be done when certs are available
-                // signing { identity.set("Developer ID Application: ...") }
-
-                 iconFile = iconsDir.file("app.icns")
+                iconFile = iconsDir.file("app.icns")
             }
 
-            // ---- Linux (DEB) ----
             linux {
                 shortcut = true
-
                 iconFile = iconsDir.file("app.png")
             }
         }
