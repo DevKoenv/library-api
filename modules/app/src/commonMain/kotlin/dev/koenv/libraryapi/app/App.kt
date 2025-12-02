@@ -1,6 +1,5 @@
 package dev.koenv.libraryapi.app
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,11 +24,7 @@ import dev.koenv.libraryapi.app.ui.AppTheme
 import dev.koenv.libraryapi.app.ui.components.Text
 import dev.koenv.libraryapi.app.ui.components.Button
 import dev.koenv.libraryapi.app.ui.components.ButtonVariant
-import dev.koenv.libraryapi.shared.Greeting
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import libraryapi.modules.app.generated.resources.Res
-import libraryapi.modules.app.generated.resources.compose_multiplatform
 
 import dev.koenv.libraryapi.app.navigation.*
 import dev.koenv.libraryapi.app.screens.*
@@ -57,7 +52,6 @@ fun App() {
         }
 
         val navigator = remember { Navigator(Screen.Home) }
-        var showGreeting by remember { mutableStateOf(false) }
 
         Column(
             modifier = Modifier
@@ -80,22 +74,9 @@ fun App() {
                 )
                 Button(
                     variant = ButtonVariant.PrimaryOutlined,
-                    onClick = { showGreeting = !showGreeting }
+                    onClick = {  }
                 ) {
                     Text("Other", style = AppTheme.typography.button)
-                }
-            }
-
-            val greeting = remember { Greeting().greet() }
-            if (showGreeting) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(painter = painterResource(Res.drawable.compose_multiplatform), contentDescription = null)
-                    Text(text = "Compose: $greeting", style = AppTheme.typography.h1)
                 }
             }
 

@@ -63,6 +63,9 @@ kotlin {
                 // Lifecycle
                 implementation(libs.androidx.lifecycle.viewmodelCompose)
                 implementation(libs.androidx.lifecycle.runtimeCompose)
+
+                // Navigation
+                implementation(libs.voyager.navigation)
             }
         }
 

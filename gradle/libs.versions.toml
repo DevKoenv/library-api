@@ -16,21 +16,23 @@ kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 kotlinx-datetime = "0.7.1"
 
-ktor = "3.3.2"                             # >= 3.2.3 :contentReference[oaicite:0]{index=0}
-exposed = "1.0.0-rc-3"                     # >= 1.0.0-rc-1 :contentReference[oaicite:1]{index=1}
-logback = "1.5.20"                         # >= 1.5.19
-argon2 = "2.12"                            # >= 2.12 :contentReference[oaicite:2]{index=2}
-mariadb4j = "3.3.0"                        # >= 3.3.0 :contentReference[oaicite:3]{index=3}
-mariadb-java = "3.5.6"                     # >= 3.3.0 :contentReference[oaicite:4]{index=4}
-hikari = "7.0.2"                           # >= 5.1.0 :contentReference[oaicite:5]{index=5}
-flyway = "11.16.0"                         # >= 11.14.0 :contentReference[oaicite:6]{index=6}
-micrometer = "1.16.0"                      # >= 1.6.13 :contentReference[oaicite:7]{index=7}
-koin = "4.1.1"                             # >= 4.1.0 :contentReference[oaicite:8]{index=8}
-ktor-rate-limiting = "2.2.1"               # latest from extra-ktor-plugins :contentReference[oaicite:9]{index=9}
+ktor = "3.3.2"
+exposed = "1.0.0-rc-3"
+logback = "1.5.20"
+argon2 = "2.12"
+mariadb4j = "3.3.0"
+mariadb-java = "3.5.6"
+hikari = "7.0.2"
+flyway = "11.16.0"
+micrometer = "1.16.0"
+koin = "4.1.1"
+ktor-rate-limiting = "2.2.1"
 
 junit = "4.13.2"
 lumo = "1.2.5"
 materialRipple = "1.9.4"
+
+voyager = "1.1.0-beta03"
 
 [libraries]
 
@@ -99,6 +101,17 @@ koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-ktor = { module = "io.insert-koin:koin-ktor", version.ref = "koin" }
 koin-logger-slf4j = { module = "io.insert-koin:koin-logger-slf4j", version.ref = "koin" }
 koin-test-junit5 = { module = "io.insert-koin:koin-test-junit5", version.ref = "koin" }
+
+# --- Voyager ---
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-screenModel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
+voyager-bottomSheetNavigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
+voyager-tabNavigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
+voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
+voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
+voyager-hilt = { module = "cafe.adriel.voyager:voyager-hilt", version.ref = "voyager" }
+voyager-kodein = { module = "cafe.adriel.voyager:voyager-kodein", version.ref = "voyager" }
+voyager-rxjava = { module = "cafe.adriel.voyager:voyager-rxjava", version.ref = "voyager" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

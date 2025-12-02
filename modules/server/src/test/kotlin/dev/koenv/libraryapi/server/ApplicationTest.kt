@@ -1,6 +1,5 @@
 package dev.koenv.libraryapi.server
 
-import dev.koenv.libraryapi.shared.Greeting
 import io.ktor.client.request.get
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
@@ -17,6 +16,6 @@ class ApplicationTest {
         }
         val response = client.get("/")
         assertEquals(HttpStatusCode.Companion.OK, response.status)
-        assertEquals("Ktor: ${Greeting().greet()}", response.bodyAsText())
+        assertEquals("OK", response.bodyAsText())
     }
 }
